@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useOrganizationList } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { completeCompanyBrain, createCompanyBrain, type OnboardingState } from "./actions";
 
 export function OnboardingForm({ state }: { state: OnboardingState }) {
   const router = useRouter();
+  const { setActive } = useOrganizationList();
   const [companyName, setCompanyName] = useState(state.companyName ?? state.orgName ?? "");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -20,6 +22,10 @@ export function OnboardingForm({ state }: { state: OnboardingState }) {
       : await createCompanyBrain(companyName);
 
     if (result.success) {
+      // Set the newly created/existing org as the active org in the Clerk session
+      if (setActive) {
+        await setActive({ organization: result.orgId });
+      }
       router.push("/connect");
       router.refresh();
     } else {
@@ -59,3 +65,4 @@ export function OnboardingForm({ state }: { state: OnboardingState }) {
     </div>
   );
 }
+

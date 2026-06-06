@@ -160,15 +160,40 @@ export async function createCompanyBrain(companyName: string): Promise<CompanyBr
   const user = await currentUser();
   const clerk = await clerkClient();
   let clerkOrgId: string;
-  try {
-    const org = await clerk.organizations.createOrganization({
+
+  async function tryCreateOrg(slug: string) {
+    return clerk.organizations.createOrganization({
       name: trimmedName,
-      slug: slugifyCompanyName(trimmedName),
-      createdBy: userId,
+      slug,
+      createdBy: userId!,
     });
+  }
+
+  try {
+    const baseSlug = slugifyCompanyName(trimmedName);
+    let org;
+    try {
+      org = await tryCreateOrg(baseSlug);
+    } catch (firstErr: unknown) {
+      // Log full Clerk error for debugging
+      console.error("Clerk createOrganization failed (attempt 1):", JSON.stringify(firstErr, null, 2));
+
+      // Check if the error is a slug uniqueness violation — retry with a random suffix
+      const isSlugTaken = isDuplicateSlugError(firstErr);
+      if (isSlugTaken) {
+        const suffix = Math.random().toString(36).slice(2, 6);
+        const retrySlug = `${baseSlug}-${suffix}`.slice(0, 48);
+        console.log(`Retrying with slug: ${retrySlug}`);
+        org = await tryCreateOrg(retrySlug);
+      } else {
+        throw firstErr;
+      }
+    }
     clerkOrgId = org.id;
-  } catch (err) {
-    return { success: false, error: `Failed to create organization: ${err instanceof Error ? err.message : String(err)}` };
+  } catch (err: unknown) {
+    console.error("Clerk createOrganization failed (final):", JSON.stringify(err, null, 2));
+    const detail = extractClerkErrorDetail(err);
+    return { success: false, error: `Failed to create organization: ${detail}` };
   }
 
   return persistCompanyForOrg({
@@ -177,6 +202,37 @@ export async function createCompanyBrain(companyName: string): Promise<CompanyBr
     userId,
     email: user?.emailAddresses[0]?.emailAddress ?? null,
   });
+}
+
+function isDuplicateSlugError(err: unknown): boolean {
+  if (err && typeof err === "object") {
+    // Clerk SDK errors have an `errors` array with `code` fields
+    const clerkErr = err as { errors?: Array<{ code?: string; message?: string }> };
+    if (Array.isArray(clerkErr.errors)) {
+      return clerkErr.errors.some(
+        (e) =>
+          e.code === "slug_already_exists" ||
+          e.code === "duplicate_record" ||
+          (e.message && /slug.*taken|already.*exists|unique/i.test(e.message))
+      );
+    }
+    // Fallback: check top-level message
+    const msg = (err as { message?: string }).message ?? "";
+    return /slug.*taken|already.*exists|unique|duplicate/i.test(msg);
+  }
+  return false;
+}
+
+function extractClerkErrorDetail(err: unknown): string {
+  if (err && typeof err === "object") {
+    const clerkErr = err as { errors?: Array<{ code?: string; message?: string; longMessage?: string }> };
+    if (Array.isArray(clerkErr.errors) && clerkErr.errors.length > 0) {
+      return clerkErr.errors
+        .map((e) => e.longMessage || e.message || e.code || "Unknown error")
+        .join("; ");
+    }
+  }
+  return err instanceof Error ? err.message : String(err);
 }
 
 export async function getOnboardingState(): Promise<OnboardingState> {
