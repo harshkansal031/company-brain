@@ -1,5 +1,6 @@
 "use server";
 
+import { randomUUID } from "node:crypto";
 import { companies, eq } from "@/lib/db";
 import { db, getCompanySettings } from "@/lib/db";
 import { requireCompany } from "@/lib/company";
@@ -38,5 +39,28 @@ export async function regenerateScopedKey(): Promise<RegenerateScopedKeyResult> 
     return { success: true, rawKey, metadata };
   } catch (err) {
     return { success: false, error: formatScopedKeyError(err instanceof Error ? err.message : String(err)) };
+  }
+}
+
+export type RegenerateTokenResult =
+  | { success: true; token: string }
+  | { success: false; error: string };
+
+export async function regenerateMcpToken(): Promise<RegenerateTokenResult> {
+  try {
+    const company = await requireCompany();
+    const newToken = randomUUID();
+
+    await db
+      .update(companies)
+      .set({ mcpToken: newToken })
+      .where(eq(companies.id, company.id));
+
+    return { success: true, token: newToken };
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : String(err),
+    };
   }
 }

@@ -20,6 +20,7 @@ export const companies = pgTable("companies", {
   composioUserId: text("composio_user_id").notNull(),
   mentalModelIds: jsonb("mental_model_ids").default({}).notNull(),
   settings: jsonb("settings").default({}).notNull(),
+  mcpToken: uuid("mcp_token").defaultRandom().unique(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
