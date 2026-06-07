@@ -49,11 +49,58 @@
       "skillPath": "skills/features/clerk-webhooks/SKILL.md",
       "computedHash": "4764eeeef1e80ce9757759ef119a3a5e77322383e8a37975d7c8ea718c259ec9"
     },
+    "composio": {
+      "source": "composiohq/skills",
+      "sourceType": "github",
+      "skillPath": "skills/composio/SKILL.md",
+      "computedHash": "b6c3b70c8d2f122bf372a0566c520d2f70a230f2e6072f45d005208a4d220e3a"
+    },
+    "hindsight-cloud": {
+      "source": "vectorize-io/hindsight",
+      "sourceType": "github",
+      "skillPath": "skills/hindsight-cloud/SKILL.md",
+      "computedHash": "0b6fe595bc848be5ab54fe45290a0fbbd30a3aefddf1f3e508a232b6e15161cb"
+    },
+    "hindsight-docs": {
+      "source": "vectorize-io/hindsight",
+      "sourceType": "github",
+      "skillPath": "skills/hindsight-docs/SKILL.md",
+      "computedHash": "daaa8d1749d1ecda50bc94dec6c4f1385296bf6fd69334de64bcae4a0211b094"
+    },
+    "nextjs-best-practices": {
+      "source": "smithery.ai",
+      "sourceType": "well-known",
+      "computedHash": "7b31199cce0f9a1b17acdf880469b0f9ddf9eb63577b1fde567def461d888287"
+    },
+    "product-to-ui-handoff": {
+      "source": "aykansal/skills",
+      "sourceType": "github",
+      "skillPath": "product-to-ui-handoff/SKILL.md",
+      "computedHash": "f76845d03e84e48922dd928d87074de0963692664356385044e8688888ff9619"
+    },
     "shadcn": {
       "source": "shadcn/ui",
       "sourceType": "github",
       "skillPath": "skills/shadcn/SKILL.md",
       "computedHash": "eee4f8123d0ce59aa1b2dbf7ea302e6ae1177ff9eb9ec7cb846ccac087e0025e"
+    },
+    "supabase": {
+      "source": "supabase/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/supabase/SKILL.md",
+      "computedHash": "61638e85394d2e39d1109cbf607593afb9733e0de19cdf0b52ec9bc32d95ea74"
+    },
+    "supabase-postgres-best-practices": {
+      "source": "supabase/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/supabase-postgres-best-practices/SKILL.md",
+      "computedHash": "3639bed1f40b3fbadae79fee631c42c89b2d1f5c30b05d5aa3cca06422a6bbbc"
+    },
+    "vercel-delete-deployments": {
+      "source": "aykansal/skills",
+      "sourceType": "github",
+      "skillPath": "vercel-delete-deployments/SKILL.md",
+      "computedHash": "8c75c50aef070eea118a1b8a952bb7cbedc264571251b85c525984589f477ba6"
     }
   }
 }
