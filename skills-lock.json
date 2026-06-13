@@ -55,6 +55,12 @@
       "skillPath": "skills/composio/SKILL.md",
       "computedHash": "b6c3b70c8d2f122bf372a0566c520d2f70a230f2e6072f45d005208a4d220e3a"
     },
+    "handoff": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/handoff/SKILL.md",
+      "computedHash": "3fdffd9dce6fc3e9f9f756ba79d694c5f162e11c7e7fbc72a0958f204312e0b1"
+    },
     "hindsight-cloud": {
       "source": "vectorize-io/hindsight",
       "sourceType": "github",
