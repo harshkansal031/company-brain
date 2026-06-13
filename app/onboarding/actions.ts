@@ -63,7 +63,7 @@ async function persistCompanyForOrg(params: {
   existingCompany?: { id: string; hindsightBankId: string; composioUserId: string };
 }): Promise<CompanyBrainResult> {
   const companyId = params.existingCompany?.id ?? randomUUID();
-  const hindsightBankId = params.existingCompany?.hindsightBankId ?? `company-${companyId}`;
+  const hindsightBankId = params.existingCompany?.hindsightBankId ?? slugifyCompanyName(params.companyName);
   const composioUserId = params.existingCompany?.composioUserId ?? `company_${companyId}`;
   const { mentalModelIds, provisioningStatus } = await provisionHindsightBank(hindsightBankId, params.companyName);
 
