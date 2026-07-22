@@ -1,36 +1,22 @@
-<div align="center">
-
-<!-- 🖼️ LOGO PLACEHOLDER -->
-<!-- Replace with: <img src="./assets/logo.svg" alt="Company Brain Logo" width="80" /> -->
-
 # Company Brain
 
 **The organizational intelligence layer that never sleeps.**
 
 *Connect your tools. Extract signal. Surface what leadership needs to know.*
 
-[![Build](https://img.shields.io/github/actions/workflow/status/YOUR_ORG/company-brain/ci.yml?style=flat-square)](https://github.com/YOUR_ORG/company-brain/actions)
-[![Version](https://img.shields.io/github/v/release/YOUR_ORG/company-brain?style=flat-square)](https://github.com/YOUR_ORG/company-brain/releases)
-[![License](https://img.shields.io/github/license/YOUR_ORG/company-brain?style=flat-square)](./LICENSE)
-[![Stars](https://img.shields.io/github/stars/YOUR_ORG/company-brain?style=flat-square)](https://github.com/YOUR_ORG/company-brain/stargazers)
+[![License](https://img.shields.io/github/license/harshkansal031/company-brain?style=flat-square)](./LICENSE)
 
-<div align="center">
-  <!-- 📸 SCREENSHOT PLACEHOLDER -->
-  <!-- Replace with: npx screenshot-tool http://localhost:3000/ -->
-  <!-- Save as: ./assets/screenshots/dashboard-overview.png -->
-  <!-- Recommended dimensions: 1280×800px, retina: 2560×1600px -->
-  <img src="./assets/screenshots/1.png" alt="Company Brain " width="90%" />
-  <p><em>The Company Brain — live KPIs, mental model status, and quick-action controls</em></p>
-</div>
+![Company Brain dashboard](assets/screenshots/1.png)
 
-[Quick Start](#-quick-start) · [Docs](#-usage) · [Report Bug](https://github.com/YOUR_ORG/company-brain/issues) · [Request Feature](https://github.com/YOUR_ORG/company-brain/issues)
+*Live KPIs, mental model status, and quick-action controls*
 
-</div>
+[Quick Start](#-quick-start) · [Why Company Brain?](#-why-company-brain) · [Docs](#-usage) · [PDF version](./README.pdf) · [Contributing](./CONTRIBUTING.md) · [Report Bug](https://github.com/harshkansal031/company-brain/issues)
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
+- [Why Company Brain?](#-why-company-brain)
 - [Overview](#-overview)
 - [Features](#-features)
 - [Screenshots](#-screenshots)
@@ -42,73 +28,82 @@
 - [API Reference](#-api-reference)
 - [Contributing](#-contributing)
 - [Roadmap](#-roadmap)
-- [License](#-license)
 - [Acknowledgments](#-acknowledgments)
 
 ---
 
-## 🧠 Overview
+## Why Company Brain?
 
-**Company Brain** is a semantic memory system for organizations. It continuously ingests activity from your connected tools (Slack, GitHub, Linear, Teams, Gmail), uses Gemini to extract operational signals (decisions, risks, blockers, milestones), stores them in a persistent vector memory bank via Hindsight, and runs periodic reflection passes to synthesize leadership-grade observations.
+The biggest blocker to AI automation of companies is no longer the models — they just got so good so quickly. Now the blocker is **domain knowledge**.
+
+Every company has critical know-how scattered everywhere. Some of it lives in people's heads. Some of it is buried in old email accounts, Slack threads, support tickets, and databases. The company works because humans vaguely remember where that knowledge is and how to apply it.
+
+But AI agents can't operate like that. If we want every company to run on AI automation, we need a new primitive: **a company brain**.
+
+We need Garry's G-Brain, but for every business in the world. A system that pulls knowledge out of all these fragmented sources, structures it, keeps it current, and turns it into an executable skills file for AI.
+
+This isn't a company-wide search or a chatbot over documents. It's a living map of how a company works: how refunds get handled, how pricing exceptions are decided, or how engineers respond to incidents.
+
+Then AI systems can use that skills file to actually do the work safely and consistently.
+
+The company brain becomes the missing layer between raw company data and reliable AI automation.
+
+**Every company in the world is going to need one.**
+
+---
+
+## Overview
+
+**Company Brain** is that layer — a semantic memory system for organizations. It continuously ingests activity from connected tools (Slack, GitHub, Linear), uses Gemini to extract operational signals (decisions, risks, blockers, milestones), stores them in a persistent vector memory bank via Hindsight, and runs periodic reflection passes to synthesize leadership-grade observations.
 
 Built for engineering and product leaders who need a real-time pulse on what's happening across their teams — without reading every message.
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  ✅ Multi-tenant, per-company memory isolation  │
-│  ✅ Gemini-powered AI extraction (OpenAI-compat)│
-│  ✅ MCP server endpoint for Cursor / Claude     │
+│  Multi-tenant, per-company memory isolation     │
+│  Gemini-powered AI extraction (OpenAI-compat)   │
+│  MCP proxy endpoint for Cursor / Claude         │
 └─────────────────────────────────────────────────┘
 ```
 
 ---
 
-## ✨ Features
+## Features
 
 | | Feature | Description |
 |---|---|---|
-| 🔌 | **Multi-App Ingestion** | Connects Slack, Microsoft Teams, GitHub, Linear, and Gmail via Composio OAuth |
+| 🔌 | **Multi-App Ingestion** | Connects Slack, GitHub, and Linear via Composio OAuth |
 | 🤖 | **AI Signal Extraction** | Gemini 2.0 Flash classifies every event into facts, decisions, risks, action items, and milestones |
 | 🧠 | **Persistent Vector Memory** | All extracted knowledge is retained in a Hindsight Memory Bank with tenant isolation |
 | 🪞 | **Nightly Reflection** | Scheduled synthesis pass queries the bank with leadership questions and re-retains observations |
-| 🛠️ | **MCP Integration** | Exposes a Model Context Protocol endpoint so Cursor and Claude Desktop can query company memory directly |
-| 🗂️ | **Mental Models** | Provisions four standing mental models: Execution Health, Active Blockers, Recent Decisions, Engineering Risks |
-| 🔒 | **Scoped API Keys** | Per-company read-only Hindsight keys with configurable TTL for secure MCP access |
+| 🛠️ | **MCP Integration** | Token-authenticated proxy exposes Hindsight MCP to Cursor, Claude Desktop, and ChatGPT |
+| 🗂️ | **Mental Models** | Four standing mental models: Weekly Execution Health, Active Blockers, Recent Decisions, Engineering Risks |
+| 🔒 | **Scoped API Keys** | Per-company read-only Hindsight keys with configurable TTL for direct MCP access |
 | 📊 | **Pipeline Dashboard** | Full audit log of every ingestion run, extraction metric, and reflection cycle |
-| 🏢 | **Multi-Tenant Auth** | Clerk organization-based authentication with role-aware onboarding |
+| 🏢 | **Multi-Tenant Auth** | Clerk organization-based authentication with webhook-based member sync |
 | ⚡ | **Deduplication** | SHA-256-keyed upserts ensure no event is extracted twice, even across overlapping ingestion windows |
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Dashboard Overview
 
 > The main control center — live sync status, KPI counters, mental model roster, and quick-action navigation.
 
-<div align="center">
-  <!-- 📸 SCREENSHOT PLACEHOLDER -->
-  <!-- Replace with: npx screenshot-tool http://localhost:3000/ -->
-  <!-- Save as: ./assets/screenshots/dashboard-overview.png -->
-  <!-- Recommended dimensions: 1280×800px, retina: 2560×1600px -->
-  <img src="./assets/screenshots/2.png" alt="Dashboard Overview" width="90%" />
-  <p><em>Connected Apps · Raw Events · System Reflections — all at a glance</em></p>
-</div>
+![Dashboard Overview](assets/screenshots/2.png)
+
+*Connected Apps · Raw Events · System Reflections — all at a glance*
 
 ---
 
 ### Connect Apps
 
-> OAuth integration manager — connect or disconnect Slack, GitHub, Teams, Linear, and Gmail with one click.
+> OAuth integration manager — connect or disconnect Slack, GitHub, and Linear. GitHub sync requires selecting repositories.
 
-<div align="center">
-  <!-- 📸 SCREENSHOT PLACEHOLDER -->
-  <!-- Replace with: npx screenshot-tool http://localhost:3000/connect -->
-  <!-- Save as: ./assets/screenshots/connect-apps.png -->
-  <!-- Recommended dimensions: 1280×800px, retina: 2560×1600px -->
-  <img src="./assets/screenshots/3.png" alt="Connect Apps" width="90%" />
-  <p><em>Connect your workspace tools to begin ingesting organizational activity</em></p>
-</div>
+![Connect Apps](assets/screenshots/3.png)
+
+*Connect your workspace tools to begin ingesting organizational activity*
 
 ---
 
@@ -116,29 +111,19 @@ Built for engineering and product leaders who need a real-time pulse on what's h
 
 > Full observability into every ingestion run, Gemini extraction metric, and nightly reflection cycle.
 
-<div align="center">
-  <!-- 📸 SCREENSHOT PLACEHOLDER -->
-  <!-- Replace with: npx screenshot-tool http://localhost:3000/pipeline -->
-  <!-- Save as: ./assets/screenshots/pipeline-status.png -->
-  <!-- Recommended dimensions: 1280×800px, retina: 2560×1600px -->
-  <img src="./assets/screenshots/4.png" alt="Pipeline Status" width="90%" />
-  <p><em>Extraction metrics (pending / done / skipped / failed) alongside sync and reflection history</em></p>
-</div>
+![Pipeline Status](assets/screenshots/4.png)
+
+*Extraction metrics (pending / done / skipped / failed) alongside sync and reflection history*
 
 ---
 
 ### MCP Configuration
 
-> Retrieve the company's scoped Hindsight API key and copy the MCP server URL for Cursor or Claude Desktop.
+> Copy the token-based MCP URL for Claude or ChatGPT, or generate a scoped Hindsight API key for direct access.
 
-<div align="center">
-  <!-- 📸 SCREENSHOT PLACEHOLDER -->
-  <!-- Replace with: npx screenshot-tool http://localhost:3000/mcp -->
-  <!-- Save as: ./assets/screenshots/mcp-setup.png -->
-  <!-- Recommended dimensions: 1280×800px, retina: 2560×1600px -->
-  <img src="./assets/screenshots/5.png" alt="MCP Setup" width="90%" />
-  <p><em>One-click key generation and MCP endpoint URL for AI IDE integration</em></p>
-</div>
+![MCP Setup](assets/screenshots/5.png)
+
+*One-click URL copy and scoped key generation for AI IDE integration*
 
 ---
 
@@ -146,37 +131,36 @@ Built for engineering and product leaders who need a real-time pulse on what's h
 
 > Guided setup flow — create or join a Clerk organization, provision the Hindsight Memory Bank, and generate the initial scoped API key.
 
-<div align="center">
-  <!-- 📸 SCREENSHOT PLACEHOLDER -->
-  <!-- Replace with: npx screenshot-tool http://localhost:3000/onboarding -->
-  <!-- Save as: ./assets/screenshots/onboarding.png -->
-  <!-- Recommended dimensions: 1280×800px, retina: 2560×1600px -->
-  <img src="./assets/screenshots/9.png" alt="Onboarding Flow" width="90%" />
-  <p><em>New organizations are provisioned with a Hindsight bank and four mental models in one step</em></p>
-</div>
+![Onboarding Flow](assets/screenshots/9.png)
+
+*New organizations are provisioned with a Hindsight bank and four mental models in one step*
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ```bash
 # 1. Clone and install dependencies
-git clone https://github.com/YOUR_ORG/company-brain.git && cd company-brain && pnpm install
+git clone https://github.com/harshkansal031/company-brain.git
+cd company-brain
+pnpm install
 
 # 2. Copy env template and fill in your keys (see Configuration section)
 cp .env.example .env
 
-# 3. Push the database schema to Supabase
-pnpm db:push
+# 3. Apply database migrations
+pnpm db:migrate
 
-# 4. Start the Web Application and Pipeline Worker in separate terminals
-pnpm dev          # Terminal 1 — Next.js on http://localhost:3000
-pnpm dev:worker   # Terminal 2 — Pipeline Worker with tsx watch
+# 4. Start the web app and worker in separate terminals
+pnpm dev      # Terminal 1 — Next.js on http://localhost:3000
+pnpm worker   # Terminal 2 — pipeline + reflection worker
 ```
+
+Sign up, complete onboarding, connect at least one tool on `/connect`, and the worker will begin ingesting on its configured interval.
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 ### Prerequisites
 
@@ -193,54 +177,45 @@ pnpm dev:worker   # Terminal 2 — Pipeline Worker with tsx watch
 ### Install from source
 
 ```bash
-# Clone the repository
-git clone https://github.com/YOUR_ORG/company-brain.git
+git clone https://github.com/harshkansal031/company-brain.git
 cd company-brain
-
-# Install all workspace dependencies
 pnpm install
-
-# Configure environment
 cp .env.example .env
 # Edit .env with your credentials (see Configuration section)
-
-# Push schema to Supabase (uses DATABASE_DIRECT_URL on port 5432)
-pnpm db:push
-
-# Build everything for production
+pnpm db:migrate
 pnpm build
-
-# Start with PM2 (manages both web + worker processes)
-pnpm start:all
 ```
 
-### Production deployment (PM2)
+### Production
+
+Run the Next.js server and worker as separate processes (e.g. systemd, Docker, or a process manager):
 
 ```bash
-# After building, start both processes managed by PM2
-pnpm start:all
-
-# Or start individually
-pnpm start          # Web Application only
-pnpm start:worker   # Pipeline Worker only
+pnpm build
+pnpm start          # Web application
+pnpm worker         # Pipeline worker (separate process)
 ```
+
+Configure `CRON_SECRET` in production so `/api/cron/*` routes require a Bearer token.
 
 ---
 
-## 📖 Usage
+## Usage
 
-### Basic: Running a Manual Pipeline
+### Running a manual pipeline
 
-The Pipeline Worker runs automatically on the configured interval. For a manual trigger via HTTP:
+The worker runs pipelines automatically on `PIPELINE_INTERVAL_MS` (default: 1 hour). Trigger one manually via HTTP:
 
 ```bash
-# Trigger an incremental pipeline for a specific company
 curl -X POST http://localhost:3000/api/cron/pipeline \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $CRON_SECRET" \
   -d '{ "companyId": "your-company-uuid" }'
+```
 
-# Response
+Response:
+
+```json
 {
   "success": true,
   "runId": "abc123...",
@@ -252,13 +227,13 @@ curl -X POST http://localhost:3000/api/cron/pipeline \
 }
 ```
 
-### Worker: Scheduled Pipeline and Reflection
+In development, the `Authorization` header is optional. In production, `CRON_SECRET` is required.
 
-The `@company-brain/worker` process runs on startup and repeats on configured intervals:
+### Worker schedule
+
+The worker in `worker/index.ts` runs on startup and repeats on configured intervals:
 
 ```typescript
-// apps/worker/src/index.ts — simplified view of what the worker does
-
 // On startup: immediately run pipelines for all active companies
 void runScheduledPipelines();
 
@@ -269,78 +244,84 @@ setInterval(() => void runScheduledPipelines(), PIPELINE_INTERVAL_MS);
 setInterval(() => void runScheduledReflection(), REFLECTION_INTERVAL_MS);
 ```
 
-For faster iteration during development, add `.env.local` with short intervals:
+For faster iteration during development, add `.env.local`:
 
 ```bash
-# .env.local — overrides .env for local dev
-PIPELINE_INTERVAL_MS=60000    # Run pipeline every 60 seconds
-REFLECTION_INTERVAL_MS=120000 # Run reflection every 2 minutes
+PIPELINE_INTERVAL_MS=60000     # Run pipeline every 60 seconds
+REFLECTION_INTERVAL_MS=120000  # Run reflection every 2 minutes
 ```
 
-### Advanced: Extraction Pipeline Internals
+### MCP setup in Cursor or Claude Desktop
+
+1. Complete onboarding and open `/mcp`
+2. Copy the **Connect to Claude / ChatGPT** URL (`/api/mcp/{token}/sse`)
+3. Add it as an MCP server in your AI client — no separate API key required
+
+Alternatively, generate a scoped Hindsight API key on the same page and use the direct Hindsight MCP URL with that key.
+
+### Extraction pipeline
 
 Each pipeline run calls ingestion → extraction in sequence, with up to 40 extraction batches per run:
 
 ```typescript
-// packages/pipeline/src/run-company-pipeline.ts
+// lib/pipeline.ts
 const result = await runCompanyPipeline(db, {
-  companyId: 'your-company-uuid',
-  runType: 'incremental', // or 'backfill' for a 48-hour history pull
+  companyId: "your-company-uuid",
+  runType: "incremental", // or "backfill" for a 48-hour history pull
 });
-// result.extraction = { processed: N, skipped: N, failed: N }
+// result.extraction = { processed, skipped, failed }
 ```
 
-The extraction step uses Gemini to classify each raw event into typed knowledge items:
+Gemini classifies each raw event into typed knowledge items:
 
 ```typescript
-// Extracted item shape — validated with Zod
 {
-  type: 'fact' | 'decision' | 'risk' | 'action_item' | 'milestone',
-  content: 'string — standalone, self-contained statement',
+  type: "fact" | "decision" | "risk" | "action_item" | "milestone",
+  content: "string — standalone, self-contained statement",
   confidence: 0.0–1.0,
-  entities: ['ProjectX', 'Alice', 'auth-service']
+  entities: ["ProjectX", "Alice", "auth-service"]
 }
 ```
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                           COMPANY BRAIN MONOREPO                             │
+│                           COMPANY BRAIN                                      │
 │                                                                              │
 │  ┌─────────────────────────────┐    ┌───────────────────────────────────┐   │
-│  │     apps/web (Next.js 16)   │    │    apps/worker (Node / tsx)       │   │
+│  │   Next.js App (app/)        │    │   Worker (worker/index.ts)        │   │
 │  │                             │    │                                   │   │
-│  │  /           Dashboard      │    │  - runScheduledPipelines()        │   │
-│  │  /connect    OAuth manager  │    │    every PIPELINE_INTERVAL_MS     │   │
-│  │  /pipeline   Audit log      │    │                                   │   │
-│  │  /mcp        Key + URL      │    │  - runScheduledReflection()       │   │
-│  │  /onboarding Org setup      │    │    every REFLECTION_INTERVAL_MS   │   │
+│  │  /dashboard    KPIs         │    │  runScheduledPipelines()          │   │
+│  │  /connect      OAuth mgr    │    │    every PIPELINE_INTERVAL_MS     │   │
+│  │  /pipeline     Audit log    │    │                                   │   │
+│  │  /mcp          Key + URL    │    │  runScheduledReflection()         │   │
+│  │  /onboarding   Org setup    │    │    every REFLECTION_INTERVAL_MS   │   │
 │  │                             │    │                                   │   │
-│  │  API Routes:                │    │  Runs Connect Backfill is done    │   │
-│  │  POST /api/cron/pipeline    │    │  by the Web App, not the Worker   │   │
+│  │  API Routes:                │    │  Connect backfill is triggered    │   │
+│  │  POST /api/cron/pipeline    │    │  by the web app after OAuth       │   │
 │  │  POST /api/cron/reflection  │    │                                   │   │
 │  │  GET  /api/composio/callback│    └──────────────┬────────────────────┘   │
+│  │  POST /api/webhooks/clerk   │                   │                        │
+│  │  GET  /api/mcp/[token]/sse  │                   │                        │
 │  └──────────────┬──────────────┘                   │                        │
 │                 │                                   │                        │
-│        ┌────────▼────────────────────────────────── ▼──────────┐            │
-│        │               packages/pipeline                        │            │
+│        ┌────────▼───────────────────────────────────▼──────────┐            │
+│        │                  lib/pipeline.ts                       │            │
 │        │   runCompanyPipeline(db, { companyId, runType })       │            │
-│        │   └── runIngestionPipeline()  →  runExtractionPipeline │            │
-│        └──────────────────────────────────────────────────────-─┘            │
+│        │   └── lib/ingestion  →  lib/extraction                 │            │
+│        └────────────────────────────────────────────────────────┘            │
 │                 │                         │                                  │
 │        ┌────────▼─────────┐    ┌──────────▼──────────┐                      │
-│        │ packages/ingest. │    │ packages/extraction  │                      │
-│        │ Composio adapters│    │ Gemini Flash (via    │                      │
-│        │ Slack, Teams,    │    │ OpenAI-compat SDK)   │                      │
-│        │ Linear, GitHub,  │    │ → Hindsight retain() │                      │
-│        │ Gmail            │    └──────────────────────┘                      │
-│        └────────┬─────────┘                                                  │
-│                 │                                                             │
+│        │ lib/composio/    │    │ lib/extraction/      │                      │
+│        │ Slack, Linear,   │    │ Gemini Flash (via    │                      │
+│        │ GitHub adapters  │    │ OpenAI-compat SDK)   │                      │
+│        └────────┬─────────┘    │ → Hindsight retain() │                      │
+│                 │              └──────────────────────┘                      │
 │        ┌────────▼───────────────────────────────────┐                       │
-│        │  packages/db  (Drizzle ORM + Supabase PG)  │                       │
+│        │  lib/db  (Drizzle ORM + Supabase Postgres) │                       │
 │        │  companies · members · connectedAccounts    │                       │
 │        │  rawEvents · ingestionRuns · extractionJobs │                       │
 │        │  reflectionRuns                             │                       │
@@ -356,86 +337,79 @@ External Services:
                                       └──────────────┘
 ```
 
-### Tech Stack
+### Tech stack
 
 | Layer | Technology |
 |---|---|
-| Web Application | Next.js 16, React 19, Tailwind CSS v4 |
-| Pipeline Worker | Node.js, tsx (TypeScript runner) |
-| Authentication | Clerk (organization-scoped, webhooks for provisioning) |
-| Database | Supabase Postgres, Drizzle ORM (schema push + migrations) |
-| Tool Connectivity | Composio (Slack, Teams, GitHub, Linear, Gmail adapters) |
-| AI Extraction | Google Gemini 2.0 Flash via OpenAI-compatible SDK |
-| Vector Memory | Hindsight Cloud (retain, reflect, mental models, MCP) |
-| Process Management | PM2 (`ecosystem.config.js`) |
-| Monorepo | pnpm workspaces |
+| Web application | Next.js 16, React 19, Tailwind CSS v4 |
+| Pipeline worker | Node.js, tsx |
+| Authentication | Clerk (organization-scoped, webhooks for member sync) |
+| Database | Supabase Postgres, Drizzle ORM, SQL migrations |
+| Tool connectivity | Composio (Slack, GitHub, Linear adapters) |
+| AI extraction | Google Gemini 2.0 Flash via OpenAI-compatible SDK |
+| Vector memory | Hindsight Cloud (retain, reflect, mental models, MCP) |
 
-### Data Flow
+### Data flow
 
-A Pipeline run begins when the Pipeline Worker (or a manual trigger) calls `runCompanyPipeline`. The ingestion stage fetches raw events from every active connected account via Composio, deduplicates them with a SHA-256 key, and writes them to `raw_events` in Supabase. The extraction stage then processes each `pending` event in batches: Gemini classifies each into typed knowledge items, which are immediately retained in the company's isolated Hindsight Memory Bank. At the configured reflection interval, five leadership-oriented queries are run against the bank; the resulting observations are re-retained as dated documents (`reflection:key:YYYY-MM-DD`) and logged to `reflection_runs`. The MCP endpoint served by Hindsight Cloud then makes the entire bank queryable by any MCP-compatible AI client.
+A pipeline run begins when the worker (or a manual cron trigger) calls `runCompanyPipeline`. The ingestion stage fetches raw events from every active connected account via Composio, deduplicates them with a SHA-256 key, and writes them to `raw_events`. The extraction stage processes each `pending` event in batches: Gemini classifies each into typed knowledge items, which are immediately retained in the company's isolated Hindsight Memory Bank.
+
+At the reflection interval, five leadership-oriented queries run against the bank; the resulting observations are re-retained as dated documents (`reflection:{key}:{YYYY-MM-DD}`) and logged to `reflection_runs`. The MCP proxy at `/api/mcp/{token}/sse` makes the bank queryable by any MCP-compatible AI client without exposing Hindsight credentials.
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
-Copy `.env.example` to `.env` and populate every required variable before starting.
+Copy [`.env.example`](./.env.example) to `.env` and populate every required variable before starting.
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `NEXT_PUBLIC_APP_URL` | ✅ | `http://localhost:3000` | Public URL of the Web Application (used for OAuth callbacks) |
+| `NEXT_PUBLIC_APP_URL` | ✅ | `http://localhost:3000` | Public URL of the web app (OAuth callbacks, MCP URLs) |
 | `NODE_ENV` | ✅ | `development` | `development` or `production` |
-| `CRON_SECRET` | ✅ | — | Bearer token guarding the `/api/cron/*` routes in production |
-| `PIPELINE_INTERVAL_MS` | — | `3600000` (1 h) | How often the Pipeline Worker runs scheduled pipelines (ms) |
-| `REFLECTION_INTERVAL_MS` | — | `86400000` (24 h) | How often the Pipeline Worker runs reflection (ms) |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | ✅ | — | Clerk publishable key (`pk_test_…` or `pk_live_…`) |
-| `CLERK_SECRET_KEY` | ✅ | — | Clerk secret key (`sk_test_…` or `sk_live_…`) |
-| `CLERK_WEBHOOK_SIGNING_SECRET` | ✅ | — | Clerk webhook signing secret (`whsec_…`) for org membership sync |
-| `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | — | `/sign-in` | Clerk sign-in redirect path |
-| `NEXT_PUBLIC_CLERK_SIGN_UP_URL` | — | `/sign-up` | Clerk sign-up redirect path |
-| `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL` | — | `/onboarding` | Redirect after successful sign-in |
-| `NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL` | — | `/onboarding` | Redirect after successful sign-up |
-| `DATABASE_URL` | ✅ | — | Supabase Postgres **transaction pooler** URL (port `6543`, `?pgbouncer=true`) |
-| `DATABASE_DIRECT_URL` | — | — | Supabase Postgres **direct** URL (port `5432`); required by `drizzle-kit push` |
-| `SUPABASE_URL` | ✅ | — | Supabase project URL (`https://[ref].supabase.co`) |
-| `SUPABASE_SERVICE_ROLE_KEY` | ✅ | — | Supabase service role key (server-side only) |
+| `CRON_SECRET` | ✅ (prod) | — | Bearer token guarding `/api/cron/*` routes in production |
+| `DEFAULT_COMPANY_ID` | — | — | Fallback company ID for cron routes when `companyId` is omitted |
+| `PIPELINE_INTERVAL_MS` | — | `3600000` (1 h) | Worker pipeline interval (ms) |
+| `REFLECTION_INTERVAL_MS` | — | `86400000` (24 h) | Worker reflection interval (ms) |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | ✅ | — | Clerk publishable key |
+| `CLERK_SECRET_KEY` | ✅ | — | Clerk secret key |
+| `CLERK_WEBHOOK_SIGNING_SECRET` | ✅ | — | Clerk webhook signing secret for member sync |
+| `DATABASE_URL` | ✅ | — | Supabase Postgres **transaction pooler** URL (port `6543`) |
+| `DATABASE_DIRECT_URL` | — | — | Supabase Postgres **direct** URL (port `5432`); used by migrations |
 | `COMPOSIO_API_KEY` | ✅ | — | Composio platform API key |
+| `COMPOSIO_AUTH_CONFIG_*` | — | — | Optional per-toolkit auth config ID overrides (`SLACK`, `GITHUB`, `LINEAR`) |
 | `HINDSIGHT_API_URL` | ✅ | `https://api.hindsight.vectorize.io` | Hindsight Cloud API base URL |
-| `HINDSIGHT_API_KEY` | ✅ | — | Hindsight parent API key — **must** have "Allow creating scoped child keys" enabled |
-| `GEMINI_API_KEY` | ✅ | — | Google Gemini API key (AI Studio) |
-| `GEMINI_MODEL` | — | `gemini-2.0-flash` | Gemini model name used for extraction |
-| `GEMINI_API_BASE_URL` | — | `https://generativelanguage.googleapis.com/v1beta/openai/` | Gemini OpenAI-compatible endpoint base URL |
+| `HINDSIGHT_API_KEY` | ✅ | — | Hindsight parent API key — must allow scoped child key creation |
+| `HINDSIGHT_SCOPED_KEY_EXPIRES_IN_DAYS` | — | `365` | TTL for scoped MCP API keys |
+| `GEMINI_API_KEY` | ✅ | — | Google Gemini API key |
+| `GEMINI_MODEL` | — | `gemini-2.0-flash` | Gemini model used for extraction |
+| `GEMINI_API_BASE_URL` | — | `https://generativelanguage.googleapis.com/v1beta/openai/` | Gemini OpenAI-compatible endpoint |
 
 ---
 
-## 🔌 API Reference
+## API Reference
 
 ### `POST /api/cron/pipeline`
 
 Manually trigger an incremental pipeline for a company. Protected by `CRON_SECRET` in production.
 
 **Request**
+
 ```json
-{
-  "companyId": "uuid-of-the-target-company"
-}
+{ "companyId": "uuid-of-the-target-company" }
 ```
 
 **Response `200`**
+
 ```json
 {
   "success": true,
   "runId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "extraction": {
-    "processed": 42,
-    "skipped": 8,
-    "failed": 0
-  }
+  "extraction": { "processed": 42, "skipped": 8, "failed": 0 }
 }
 ```
 
-**Response `401`** — Missing or invalid `Authorization: Bearer <CRON_SECRET>` header (production only).
+**Response `401`** — Missing or invalid `Authorization: Bearer <CRON_SECRET>` (production only).
 
-**Response `400`** — `companyId` was not provided in the body or query string.
+**Response `400`** — `companyId` was not provided in the body, query string, or `DEFAULT_COMPANY_ID`.
 
 ---
 
@@ -444,13 +418,13 @@ Manually trigger an incremental pipeline for a company. Protected by `CRON_SECRE
 Manually trigger the nightly reflection pass for a company. Same auth rules as the pipeline route.
 
 **Request**
+
 ```json
-{
-  "companyId": "uuid-of-the-target-company"
-}
+{ "companyId": "uuid-of-the-target-company" }
 ```
 
 **Response `200`**
+
 ```json
 {
   "success": true,
@@ -463,43 +437,56 @@ Manually trigger the nightly reflection pass for a company. Same auth rules as t
 
 ### `GET /api/composio/callback`
 
-OAuth redirect handler. Composio redirects here after a member authorizes a tool connection. Triggers a Connect Backfill pipeline for the newly connected toolkit only. No body required — query parameters are handled internally.
+OAuth redirect handler. Composio redirects here after a member authorizes a tool connection. Triggers a connect backfill pipeline for the newly connected toolkit only.
 
 ---
 
-## 🤝 Contributing
+### `POST /api/webhooks/clerk`
 
-1. **Fork** the repository and clone your fork
-2. **Branch** off `main` — use `feat/`, `fix/`, or `chore/` prefixes
-3. **Commit** with [Conventional Commits](https://www.conventionalcommits.org/) (`feat: add X`, `fix: correct Y`)
-4. **Open a Pull Request** against `main` with a clear description of the change
-
-### Development commands
-
-```bash
-pnpm dev            # Start the Web Application (Next.js dev server)
-pnpm dev:worker     # Start the Pipeline Worker (tsx watch mode)
-pnpm lint           # Lint all packages
-pnpm build          # Build all packages and apps for production
-pnpm db:push        # Push Drizzle schema changes to Supabase
-pnpm db:migrate     # Run pending Drizzle migrations
-```
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines. [TODO: create CONTRIBUTING.md]
+Clerk webhook endpoint for organization membership sync. Handles `organizationMembership.created` and `organizationMembership.deleted` events. Requires `CLERK_WEBHOOK_SIGNING_SECRET`.
 
 ---
 
-## 🗺️ Roadmap
+### `GET /api/mcp/{token}/sse`
+
+MCP SSE proxy to the company's Hindsight memory bank. Authenticated by the per-company `mcpToken` UUID — no separate API key required.
+
+- **GET** — Opens an SSE stream; rewrites Hindsight `endpoint` events to point at `/api/mcp/{token}/message`
+- **POST** — Forwards Streamable HTTP JSON-RPC requests to Hindsight
+- **OPTIONS** — CORS preflight
+
+Copy the full URL from `/mcp` in the dashboard (e.g. `https://your-app.com/api/mcp/{token}/sse`).
+
+---
+
+### `POST /api/mcp/{token}/message`
+
+JSON-RPC message endpoint for MCP clients using the SSE transport. Same token authentication as the SSE route.
+
+---
+
+## Contributing
+
+1. Fork the repository and clone your fork
+2. Branch off `main` — use `feat/`, `fix/`, or `chore/` prefixes
+3. Commit with [Conventional Commits](https://www.conventionalcommits.org/)
+4. Open a pull request against `main`
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for local setup, project layout, and PR checklist.
+
+---
+
+## Roadmap
 
 - [x] Multi-tenant Clerk organization authentication
-- [x] Composio OAuth adapters: Slack, Teams, GitHub, Linear, Gmail
+- [x] Composio OAuth adapters: Slack, GitHub, Linear
 - [x] Gemini-powered signal extraction with Zod validation
 - [x] Hindsight Memory Bank provisioning with mental models
-- [x] Scheduled Pipeline Worker (incremental + backfill)
-- [x] Nightly Reflection with observation re-retention
-- [x] Scoped API key minting for MCP access
+- [x] Scheduled pipeline worker (incremental + backfill)
+- [x] Nightly reflection with observation re-retention
+- [x] Token-based MCP proxy and scoped API key minting
 - [x] Pipeline audit dashboard with extraction metrics
-- [ ] Per-channel and per-repo granular ingestion scoping UI
+- [ ] Microsoft Teams and Gmail ingestion adapters
 - [ ] Webhook-driven real-time ingestion (vs. polling)
 - [ ] Slack notification integration for reflection summaries
 - [ ] Multi-region deployment support
@@ -507,28 +494,20 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines. [TODO: create 
 
 ---
 
-## 📄 License
+## Acknowledgments
 
-Distributed under the MIT License. See `LICENSE` for details.
-
----
-
-## 🙏 Acknowledgments
-
-- **[Hindsight / Vectorize](https://hindsight.vectorize.io)** — vector memory bank, mental models, MCP server, and scoped API key infrastructure that powers the core memory layer
-- **[Composio](https://composio.dev)** — OAuth tool connectivity and managed API adapters for Slack, Teams, GitHub, Linear, and Gmail
+- **[Hindsight / Vectorize](https://hindsight.vectorize.io)** — vector memory bank, mental models, MCP server, and scoped API key infrastructure
+- **[Composio](https://composio.dev)** — OAuth tool connectivity for Slack, GitHub, and Linear
 - **[Google Gemini](https://ai.google.dev)** — `gemini-2.0-flash` powers the organizational signal extraction pipeline
 - **[Clerk](https://clerk.com)** — organization-scoped authentication and webhook-based provisioning
-- **[Supabase](https://supabase.com)** — managed Postgres with PgBouncer connection pooling
-- **[Drizzle ORM](https://orm.drizzle.team)** — type-safe schema, push-based migrations, and relational queries
-- **[Next.js](https://nextjs.org)** — Web Application framework (App Router, server components)
+- **[Supabase](https://supabase.com)** — managed Postgres with connection pooling
+- **[Drizzle ORM](https://orm.drizzle.team)** — type-safe schema and relational queries
+- **[Next.js](https://nextjs.org)** — App Router web framework
 
 ---
 
 <div align="center">
 
-Made with ❤️ by the Company Brain team
-
-⭐ Star this repo if it helped you!
+Made with care by the Company Brain team
 
 </div>
