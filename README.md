@@ -54,7 +54,7 @@ The company brain becomes the missing layer between raw company data and reliabl
 
 ## Overview
 
-**Company Brain** is that layer — a semantic memory system for organizations. It continuously ingests activity from connected tools (Slack, GitHub, Linear), uses Gemini to extract operational signals (decisions, risks, blockers, milestones), stores them in a persistent vector memory bank via Hindsight, and runs periodic reflection passes to synthesize leadership-grade observations.
+**Company Brain** is that layer — a semantic memory system for organizations. It continuously ingests activity from connected tools (Slack, GitHub, Linear) and uploaded documents (PDFs, docs, spreadsheets), uses Gemini to extract operational signals (decisions, risks, blockers, milestones), stores them in a persistent vector memory bank via Hindsight, and runs periodic reflection passes to synthesize leadership-grade observations.
 
 Built for engineering and product leaders who need a real-time pulse on what's happening across their teams — without reading every message.
 
@@ -73,6 +73,7 @@ Built for engineering and product leaders who need a real-time pulse on what's h
 | | Feature | Description |
 |---|---|---|
 | 🔌 | **Multi-App Ingestion** | Connects Slack, GitHub, and Linear via Composio OAuth |
+| 📄 | **Document Upload** | Upload PDFs, Word docs, spreadsheets, and markdown from `/connect` — UI live today; extraction pipeline integration in progress |
 | 🤖 | **AI Signal Extraction** | Gemini 2.0 Flash classifies every event into facts, decisions, risks, action items, and milestones |
 | 🧠 | **Persistent Vector Memory** | All extracted knowledge is retained in a Hindsight Memory Bank with tenant isolation |
 | 🪞 | **Nightly Reflection** | Scheduled synthesis pass queries the bank with leadership questions and re-retains observations |
@@ -99,11 +100,11 @@ Built for engineering and product leaders who need a real-time pulse on what's h
 
 ### Connect Apps
 
-> OAuth integration manager — connect or disconnect Slack, GitHub, and Linear. GitHub sync requires selecting repositories.
+> Source manager on `/connect` — OAuth integrations for Slack, GitHub, and Linear, plus a document upload card for internal files. GitHub sync requires selecting repositories.
 
 ![Connect Apps](assets/screenshots/3.png)
 
-*Connect your workspace tools to begin ingesting organizational activity*
+*Connect workspace tools or upload documents to begin populating the organizational memory bank*
 
 ---
 
@@ -156,7 +157,7 @@ pnpm dev      # Terminal 1 — Next.js on http://localhost:3000
 pnpm worker   # Terminal 2 — pipeline + reflection worker
 ```
 
-Sign up, complete onboarding, connect at least one tool on `/connect`, and the worker will begin ingesting on its configured interval.
+Sign up, complete onboarding, connect at least one tool or upload documents on `/connect`, and the worker will begin ingesting on its configured interval.
 
 ---
 
@@ -259,6 +260,22 @@ REFLECTION_INTERVAL_MS=120000  # Run reflection every 2 minutes
 
 Alternatively, generate a scoped Hindsight API key on the same page and use the direct Hindsight MCP URL with that key.
 
+### Uploading documents
+
+On `/connect`, the **Upload documents** card sits alongside OAuth integrations. Click **Upload documents** to select one or more files from your machine.
+
+Supported formats:
+
+| Format | Extensions |
+|---|---|
+| PDF | `.pdf` |
+| Word | `.doc`, `.docx` |
+| Text / Markdown | `.txt`, `.md` |
+| Spreadsheet | `.csv`, `.xlsx` |
+| Presentation | `.pptx` |
+
+Uploaded files will flow through the same Gemini extraction pipeline as tool events — turning static know-how (policies, runbooks, specs) into searchable, retained knowledge in the Hindsight Memory Bank. The upload UI is live on `/connect`; backend ingestion is in active development.
+
 ### Extraction pipeline
 
 Each pipeline run calls ingestion → extraction in sequence, with up to 40 extraction batches per run:
@@ -295,7 +312,7 @@ Gemini classifies each raw event into typed knowledge items:
 │  │   Next.js App (app/)        │    │   Worker (worker/index.ts)        │   │
 │  │                             │    │                                   │   │
 │  │  /dashboard    KPIs         │    │  runScheduledPipelines()          │   │
-│  │  /connect      OAuth mgr    │    │    every PIPELINE_INTERVAL_MS     │   │
+│  │  /connect      OAuth + docs  │    │    every PIPELINE_INTERVAL_MS     │   │
 │  │  /pipeline     Audit log    │    │                                   │   │
 │  │  /mcp          Key + URL    │    │  runScheduledReflection()         │   │
 │  │  /onboarding   Org setup    │    │    every REFLECTION_INTERVAL_MS   │   │
@@ -345,13 +362,13 @@ External Services:
 | Pipeline worker | Node.js, tsx |
 | Authentication | Clerk (organization-scoped, webhooks for member sync) |
 | Database | Supabase Postgres, Drizzle ORM, SQL migrations |
-| Tool connectivity | Composio (Slack, GitHub, Linear adapters) |
+| Tool connectivity | Composio (Slack, GitHub, Linear adapters) + document upload on `/connect` |
 | AI extraction | Google Gemini 2.0 Flash via OpenAI-compatible SDK |
 | Vector memory | Hindsight Cloud (retain, reflect, mental models, MCP) |
 
 ### Data flow
 
-A pipeline run begins when the worker (or a manual cron trigger) calls `runCompanyPipeline`. The ingestion stage fetches raw events from every active connected account via Composio, deduplicates them with a SHA-256 key, and writes them to `raw_events`. The extraction stage processes each `pending` event in batches: Gemini classifies each into typed knowledge items, which are immediately retained in the company's isolated Hindsight Memory Bank.
+A pipeline run begins when the worker (or a manual cron trigger) calls `runCompanyPipeline`. The ingestion stage fetches raw events from every active connected account via Composio, deduplicates them with a SHA-256 key, and writes them to `raw_events`. Document uploads from `/connect` will join this same path once backend ingestion is wired. The extraction stage processes each `pending` event in batches: Gemini classifies each into typed knowledge items, which are immediately retained in the company's isolated Hindsight Memory Bank.
 
 At the reflection interval, five leadership-oriented queries run against the bank; the resulting observations are re-retained as dated documents (`reflection:{key}:{YYYY-MM-DD}`) and logged to `reflection_runs`. The MCP proxy at `/api/mcp/{token}/sse` makes the bank queryable by any MCP-compatible AI client without exposing Hindsight credentials.
 
@@ -480,6 +497,8 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for local setup, project layout, and PR
 
 - [x] Multi-tenant Clerk organization authentication
 - [x] Composio OAuth adapters: Slack, GitHub, Linear
+- [x] Document upload UI on Connect Apps (PDF, DOC, TXT, MD, CSV, XLSX, PPTX)
+- [ ] Document upload ingestion pipeline (extract and retain uploaded files)
 - [x] Gemini-powered signal extraction with Zod validation
 - [x] Hindsight Memory Bank provisioning with mental models
 - [x] Scheduled pipeline worker (incremental + backfill)

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Cable, GitBranch, MessageSquareText, Workflow } from "lucide-react";
+import { Cable, FileUp, GitBranch, MessageSquareText, Workflow } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { connectToolkit, disconnectToolkit } from "./actions";
 import { GitHubRepoPicker } from "./github-repo-picker";
@@ -30,6 +30,7 @@ export function ConnectDashboard({
 }) {
   const router = useRouter();
   const [loadingSlug, setLoadingSlug] = useState<string | null>(null);
+  const documentUploadRef = useRef<HTMLInputElement>(null);
 
   async function connect(slug: string) {
     setLoadingSlug(slug);
@@ -115,6 +116,36 @@ export function ConnectDashboard({
             </article>
           );
         })}
+
+        <article className="rounded-lg border border-white/10 bg-[#111111] p-5">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex size-10 items-center justify-center rounded-lg bg-white text-black">
+              <FileUp className="size-5" />
+            </div>
+            <span className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs text-emerald-300">
+              Active
+            </span>
+          </div>
+          <h2 className="mt-5 text-lg font-medium">Upload documents</h2>
+          <p className="mt-2 text-sm leading-6 text-neutral-400">
+            Add PDFs, docs, and internal files to enrich the memory bank alongside connected tools.
+          </p>
+          <input
+            ref={documentUploadRef}
+            type="file"
+            multiple
+            accept=".pdf,.doc,.docx,.txt,.md,.csv,.xlsx,.pptx"
+            className="hidden"
+          />
+          <Button
+            className="mt-5 w-full bg-white text-black hover:bg-[#F5F5F5]"
+            disabled={isSyncing}
+            onClick={() => documentUploadRef.current?.click()}
+          >
+            <FileUp className="size-4" />
+            Upload documents
+          </Button>
+        </article>
       </div>
     </div>
   );
